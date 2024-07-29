@@ -7,19 +7,19 @@ document.addEventListener('DOMContentLoaded', function () {
         inicialBotonContainer.style.display = 'none';
         formularioAgregar.style.display = 'block';
     });
+});
 
+document.addEventListener("DOMContentLoaded", function() {
     var bookCards = document.querySelectorAll('.book-card');
     var numLibrosElement = document.getElementById('num-libros');
-    var isFavoritos = false; // Estado para determinar si estamos en modo de favoritos
 
     function updateNumLibros() {
         var visibleBooks = Array.from(bookCards).filter(function(card) {
             return card.style.display !== 'none';
         }).length;
-        numLibrosElement.textContent = 'Número de libros' + (isFavoritos ? ' favoritos' : ' leídos') + ': ' + visibleBooks;
+        numLibrosElement.textContent = 'Libros leídos: ' + visibleBooks;
     }
 
-    // Filtrar por año
     var yearList = document.getElementById('year-list');
     yearList.addEventListener('change', function() {
         var selectedYear = this.value;
@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateNumLibros();
     });
 
-    // Búsqueda de libros
     var inputBusqueda = document.getElementById('search');
     var btnBuscar = document.getElementById('btn-buscar');
     var tituloArray = [];
@@ -73,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Escuchar el evento keypress en el campo de búsqueda
     inputBusqueda.addEventListener('keypress', function(event) {
+        // Verificar si la tecla presionada es "Enter" (código 13)
         if (event.keyCode === 13) {
             buscar(); // Realizar la búsqueda
         }
@@ -80,36 +80,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Escuchar el evento input en el campo de búsqueda
     inputBusqueda.addEventListener('input', function() {
+        // Si el campo de búsqueda está vacío, mostrar todos los libros
         if (inputBusqueda.value.trim() === '') {
-            // Si el campo de búsqueda está vacío, mostrar todos los libros
             bookCards.forEach(function(card) {
                 card.style.display = 'block';
             });
         }
-        updateNumLibros();
-    });
-
-    // Manejo del botón de Favoritos
-    const btnFavoritos = document.getElementById('btn-favoritos');
-    btnFavoritos.addEventListener('click', function() {
-        isFavoritos = !isFavoritos; // Alternar estado
-
-        if (isFavoritos) {
-            // Mostrar solo libros favoritos
-            bookCards.forEach(function(card) {
-                if (card.getAttribute('data-favorito') === 'true') {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        } else {
-            // Mostrar todos los libros
-            bookCards.forEach(function(card) {
-                card.style.display = 'block';
-            });
-        }
-
         updateNumLibros();
     });
 
@@ -124,12 +100,29 @@ var currentYear = new Date().getFullYear();
 var footerYearElement = document.getElementById('footer-year');
 
 // Actualizar el contenido del elemento con el año actual
-footerYearElement.innerHTML = `© ${currentYear} - La Archivoteca`;
+footerYearElement.innerHTML = `© ${currentYear} - La Archivoteca-Demo`;
 
 // Si deseas agregar "Todos los derechos reservados." solo para desktop
 var rightsElement = document.querySelector('.solo-desktop');
 if (rightsElement) {
     rightsElement.innerHTML = " - Todos los derechos reservados.";
+}
+
+function agregarParametro() {
+    // Obtener el valor del campo de texto
+    var valorParametro = document.getElementById("codigo").value;
+    
+    // Obtener el enlace
+    var enlace = document.getElementById("borrarEnlace");
+    
+    // Obtener la URL actual del enlace
+    var url = enlace.getAttribute("href");
+    
+    // Agregar el parámetro al final de la URL
+    var nuevaUrl = url + "&codigo=" + encodeURIComponent(valorParametro);
+    
+    // Establecer la nueva URL en el enlace
+    enlace.setAttribute("href", nuevaUrl);
 }
 
 // Transición suavecita de ir arriba
@@ -163,3 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 100); // Iniciar la animación después de 100ms (ajustable según necesidad)
 });
+
+
+
+
+
