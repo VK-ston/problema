@@ -2,7 +2,7 @@
 session_start(); // Inicia la sesión
 ob_start(); // Inicia el almacenamiento en búfer de salida
 
-if ($_POST['codigo'] == 'codigolibro2231,') {
+if ($_POST['codigo'] == 'democode1234') {
 
     //echo '<pre>';
     //print_r($_POST);
@@ -93,3 +93,4 @@ if ($_POST['codigo'] == 'codigolibro2231,') {
     exit();
 }
 ?>
+
