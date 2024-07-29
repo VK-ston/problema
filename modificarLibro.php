@@ -2,12 +2,10 @@
 $libros = json_decode(file_get_contents('libros.json'), true);
 $posicion = $_GET['posicion'];
 $libro = $libros[$posicion];
-$pageTitle = 'La Archivoteca - ' . htmlspecialchars($libro['Titulo']);
+$pageTitle = 'La Archivoteca - ' . $libro['Titulo'];
 require_once 'header.php';
-
-// Determinar la clase para el botón basado en el estado de Favorito
-$favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
 ?>
+
 <body>
     <?php
     echo '<div id="container">
@@ -16,54 +14,50 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
                     <button class="btn-volver" onclick="window.location.href=\'https://archivoteca.adriamachin.com/\'">
                         <p>Volver</p>
                     </button>
-                    <button class="favorito-cuadrado ' . htmlspecialchars($favoritoClase) . '" onclick="window.location.href = \'toggleFavorito.php?posicion=' . urlencode($posicion) . '&origen=modificarLibro\';">
-                        <span>⭐</span>
-                    </button>
                 </div>
                 <div class="box">
                     <div class="formulario-agregar" id="formulario-agregar" style="display:block;">
                         <form id="form-libro" action="modificar2Libro.php" method="post" enctype="multipart/form-data">';
 
-    // Aquí ya no es necesario volver a definir las variables
-    // $libros = json_decode(file_get_contents('libros.json'), true);
-    // $posicion = $_GET['posicion'];
-    // $libro = $libros[$posicion];
+    $libros = json_decode(file_get_contents('libros.json'), true);
+    $posicion = $_GET['posicion'];
+    $libro = $libros[$posicion];
 
     echo '              <div class="campo-doble-titulo-autor">
                                 <div class="columna-izq-titulo-autor">
                                     <label for="titulo">Título de la obra:</label>
-                                    <input class="input-busqueda-form" type="text" id="titulo" name="titulo" required value="' . htmlspecialchars($libro['Titulo']) . '">
+                                    <input class="input-busqueda-form" type="text" id="titulo" name="titulo" required value="' . $libro['Titulo'] . '">
                                 </div>
                                 <div class="columna-der-titulo-autor">     
                                     <label for="autor">Autor:</label>
-                                    <input class="input-busqueda-form" type="text" id="autor" name="autor" required value="' . htmlspecialchars($libro['Autor']) . '">
+                                    <input class="input-busqueda-form" type="text" id="autor" name="autor" required value="' . $libro['Autor'] . '">
                                 </div>
                             </div>
                             <div class="campo-cuadruple">
                                 <div class="campo-doble">
                                     <div class="columna-izq">
                                         <label for="fecha-inicio">Fecha de inicio:</label>
-                                        <input class="input-busqueda-form" type="date" id="fecha-inicio" name="fecha-inicio" required value="' . htmlspecialchars($libro['FechaInicio']) . '">
+                                        <input class="input-busqueda-form" type="date" id="fecha-inicio" name="fecha-inicio" required value="' . $libro['FechaInicio'] . '">
                                     </div>
                                     <div class="columna-der">
                                         <label for="fecha-fin">Fecha de fin:</label>
-                                        <input class="input-busqueda-form" type="date" id="fecha-fin" name="fecha-fin" value="' . htmlspecialchars($libro['FechaFin']) . '">
+                                        <input class="input-busqueda-form" type="date" id="fecha-fin" name="fecha-fin" value="' . $libro['FechaFin'] . '">
                                     </div>
                                 </div>
                                 <div class="campo-doble">
                                     <div class="columna-izq">
                                         <label for="formato">Formato:</label>
-                                        <input class="input-busqueda-form" type="text" id="formato" name="formato" required value="' . htmlspecialchars($libro['Formato']) . '">
+                                        <input class="input-busqueda-form" type="text" id="formato" name="formato" required value="' . $libro['Formato'] . '">
                                     </div>
                                     <div class="columna-der">
                                         <label for="paginas">Páginas:</label>
-                                        <input class="input-busqueda-form" type="number" id="num-paginas" name="num-paginas" required value="' . htmlspecialchars($libro['Paginas']) . '">
+                                        <input class="input-busqueda-form" type="number" id="num-paginas" name="num-paginas" required value="' . $libro['Paginas'] . '">
                                     </div>
                                 </div>
                             </div>   
                             <div>
                                 <label for="notas">Notas:</label>
-                                <textarea class="textarea-notas" id="notas" name="notas" placeholder="Introduce aquí tus notas">' . htmlspecialchars($libro['Notas']) . '</textarea>
+                                <textarea class="textarea-notas" id="notas" name="notas" placeholder="Introduce aquí tus notas">' . $libro['Notas'] . '</textarea>
                             </div>
                             <div class="campo-triple-por-gua-eli">
                                 <div class="columna-izq-portada-agregar">
@@ -74,7 +68,7 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
                                     <label for="codigo">Código:</label>
                                     <input class="input-portada-form-modificar" type="password" id="codigo" name="codigo" onblur="agregarParametro();">
                                 </div>                                   
-                                <input type="hidden" name="posicion" value="' . htmlspecialchars($posicion) . '">
+                                <input type="hidden" name="posicion" value="' . $posicion . '">
                                 <div class="columna-guardar-eliminar">
                                     <button class="btn-agregar" type="submit" id="btn-agregar-libro">
                                         <p>Guardar cambios</p>
@@ -82,7 +76,7 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
                                 </div>
                                 <div class="columna-guardar-eliminar">
                                     <div class="btn-eliminar">
-                                        <a id="borrarEnlace" href="borrarLibro.php?posicion=' . urlencode($posicion) . '" id="btn-agregar-libro">
+                                        <a id="borrarEnlace" href="borrarLibro.php?posicion=' . $posicion . '" id="btn-agregar-libro">
                                             Eliminar libro
                                         </a>
                                     </div>
@@ -98,25 +92,25 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
                         <div class="portada-container">
                             <div class="portada"';
     if (isset($libro['Portada'])) {
-        echo ' style="background-image: url(\'images/portadas/' . htmlspecialchars($libro['Portada']) . '\');"';
+        echo ' style="background-image: url(\'images/portadas/' . $libro['Portada'] . '\');"';
     }
 
     echo '></div>
                         </div>
                         <div class="info-container">';
                         
-    echo '              <div class="titulo-card">' . htmlspecialchars($libro['Titulo']) . '</div>';
-    echo '              <div class="autor-card">' . htmlspecialchars($libro['Autor']) . '</div>';
+    echo '              <div class="titulo-card">' . $libro['Titulo'] . '</div>';
+    echo '              <div class="autor-card">' . $libro['Autor'] . '</div>';
 
     echo '              <div class="grid-container">'; // Inicia el contenedor del grid
 
     echo '                  <div class="flex-container-card">
                                 <div class="flex-item">Formato:</div>
-                                <div class="texto-flex-item">' . htmlspecialchars($libro['Formato']) . '</div>
+                                <div class="texto-flex-item">' . $libro['Formato'] . '</div>
                             </div>';
     echo '                  <div class="flex-container-card">
                                 <div class="flex-item">Páginas:</div>
-                                <div class="texto-flex-item">' . htmlspecialchars($libro['Paginas']) . '</div>
+                                <div class="texto-flex-item">' . $libro['Paginas'] . '</div>
                             </div>';
 
     // Formatear fechas
@@ -139,22 +133,22 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
 
     echo '                  <div class="flex-container-card">
                                 <div class="flex-item">Fecha de inicio:</div>
-                                <div class="texto-flex-item">' . htmlspecialchars($fechaInicioFormatted) . '</div>
+                                <div class="texto-flex-item">' . $fechaInicioFormatted . '</div>
                             </div>';
     echo '                  <div class="flex-container-card">
                                 <div class="flex-item">Fecha de fin:</div>
-                                <div class="texto-flex-item">' . htmlspecialchars($fechaFinFormatted) . '</div>';
+                                <div class="texto-flex-item">' . $fechaFinFormatted . '</div>';
     echo '                  </div>';
     echo '                  <div class="flex-container-card">
                                 <div class="flex-item">Días totales:</div>
-                                <div class="texto-flex-item">' . htmlspecialchars($diasTotalesTexto) . '</div>
+                                <div class="texto-flex-item">' . $diasTotalesTexto . '</div>
                             </div>';
 
     echo '              </div>'; // Cierra el contenedor del grid
 
     echo '              <div class="notas-container">'; // Inicia el contenedor de notas
     echo '                  <div class="notas-card">Notas:</div>';
-    echo '                  <div class="texto-notas-card">' . htmlspecialchars($libro['Notas']) . '</div>';
+    echo '                  <div class="texto-notas-card">' . $libro['Notas'] . '</div>';
     echo '              </div>'; // Cierra el contenedor de notas
 
     echo '          </div>
@@ -168,12 +162,12 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
 
     echo '          <div class="box-navegacion">
                         <div class="boton-navegacion">
-                            <a href="modificarLibro.php?posicion=' . urlencode($posicionAnterior) . '" class="btn-navegacion-siguiente">
+                            <a href="modificarLibro.php?posicion=' . $posicionAnterior . '" class="btn-navegacion-siguiente">
                                 <p>Siguiente</p>
                             </a>
                         </div>
                         <div class="boton-navegacion">
-                            <a href="modificarLibro.php?posicion=' . urlencode($posicionSiguiente) . '" class="btn-navegacion-anterior">
+                            <a href="modificarLibro.php?posicion=' . $posicionSiguiente . '" class="btn-navegacion-anterior">
                                 <p>Anterior</p>
                             </a>
                         </div>    
@@ -186,3 +180,4 @@ $favoritoClase = $libro['Favorito'] ? 'favorito' : 'no-favorito';
     </body>
     </html>';
     ?>
+
