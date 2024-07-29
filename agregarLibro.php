@@ -2,7 +2,7 @@
 session_start(); // Inicia la sesión para acceder a las variables de sesión
 ob_start(); // Inicia el almacenamiento en búfer de salida
 
-if ($_POST['codigo'] == 'codigolibro2231,') {
+if ($_POST['codigo'] == 'democode1234') {
 
     require_once 'header.php';
     require_once 'config.php'; // Incluir el archivo de configuración
@@ -69,8 +69,6 @@ if ($_POST['codigo'] == 'codigolibro2231,') {
         'Paginas' => $_POST['num-paginas'],
         'Notas' => $_POST['notas'],
         'Portada' => $nombre,
-      	'Favorito' => 'false' // Añade el campo Favorito y establece su valor inicial como false
-
     );
     $libros[] = $libro;
 
@@ -93,3 +91,4 @@ exit();
 </pre>
 </body>
 </html>
+
