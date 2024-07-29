@@ -1,4 +1,3 @@
-
 <?php
 	session_start(); // Inicia la sesión
 	require_once 'header.php';
@@ -119,44 +118,33 @@
 
         </div>
         <div class="columna-der-desktop">
-          <div class="box-filtro-num-leidos">  
-              <div class="box-desplegable">
-                    <div class="box-bombilla-desplegable">	
-                      <select class="desplegable" name="year-list" id="year-list">
-                            <option value="todos">Todos los años</option>
-                            <?php
-                                $libros = json_decode(file_get_contents('libros.json'), true);
-                                $years = array();
-                                foreach ($libros as $libro) {
-                                    $year = date("Y", strtotime($libro['FechaInicio']));
-                                    if (!in_array($year, $years)) {
-                                        $years[] = $year;
-                                    }
+            <div class="box-desplegable">
+				<div class="box-bombilla-desplegable">	
+                  <select class="desplegable" name="year-list" id="year-list">
+                        <option value="todos">Todos los años</option>
+                        <?php
+                            $libros = json_decode(file_get_contents('libros.json'), true);
+                            $years = array();
+                            foreach ($libros as $libro) {
+                                $year = date("Y", strtotime($libro['FechaInicio']));
+                                if (!in_array($year, $years)) {
+                                    $years[] = $year;
                                 }
-                                rsort($years);
-                                foreach ($years as $year) {
-                                    echo '<option value="'.$year.'">'.$year.'</option>';
-                                }
-                            ?>
-                        </select>
-                      	<div class="mini-botones">
-                            <div>
-                              <button class="favorito-index" id="btn-favoritos">
-                                <span>⭐ Favoritos</span>
-                              </button>  
-                            </div>
-                            <div>
-                              <button class="bombilla" onclick="toggleTheme()">
-                                <span>💡</span>
-                              </button>  
-                            </div>
-                        </div>  
-                    </div>  
-                </div>
-                <div class="box-num-libros">
-                    <h2 id="num-libros">Número de libros leídos: </h2>
-                </div>
-      	   </div>
+                            }
+                            rsort($years);
+                            foreach ($years as $year) {
+                                echo '<option value="'.$year.'">'.$year.'</option>';
+                            }
+                        ?>
+                    </select>
+                    <div>
+                      <button class="bombilla" onclick="toggleTheme()">
+                        <span>💡</span>
+                      </button>  
+                    </div>
+              	</div>  
+                <h2 id="num-libros">Libros leídos: </h2>
+            </div>
             <div class="book-grid">
 				<?php
 					$libros = json_decode(file_get_contents('libros.json'), true);
@@ -167,21 +155,20 @@
 				$librosOrdenados = array_map("fecha", $libros);
 				arsort($librosOrdenados);
 
-                foreach ($librosOrdenados as $index => $libro) {
-                    $year = date("Y", strtotime($libros[$index]['FechaInicio']));
-                    $isFavorito = isset($libros[$index]['Favorito']) && $libros[$index]['Favorito'] ? 'true' : 'false';
-                    echo '<div class="book-card" data-year="'.$year.'" data-favorito="'.$isFavorito.'">';
-                    echo '<a href="leerLibro.php?posicion='.$index.'">';
-                    echo "<div class='portada'";
-                    if (isset($libros[$index]['Portada'])) {
-                        echo 'style="background-image: url(\'images/portadas/'.$libros[$index]['Portada'].'\')")';
-                    }    
-                    echo "></div>";
-                    echo '</a>';
-                    echo "<div class='titulo'>{$libros[$index]['Titulo']}</div>";
-                    echo "<div class='autor'>{$libros[$index]['Autor']}</div>";
-                    echo '</div>';
-                }
+				foreach ($librosOrdenados as $index => $libro) {
+					$year = date("Y", strtotime($libros[$index]['FechaInicio']));
+					echo '<div class="book-card" data-year="'.$year.'">';
+					echo '<a href="leerLibro.php?posicion='.$index.'">';
+					echo "<div class='portada'";
+					if (isset($libros[$index]['Portada'])) {
+						echo 'style="background-image: url(\'images/portadas/'.$libros[$index]['Portada'].'\')")';
+					}	
+					echo "></div>";
+					echo '</a>';
+					echo "<div class='titulo'>{$libros[$index]['Titulo']}</div>";
+					echo "<div class='autor'>{$libros[$index]['Autor']}</div>";
+					echo '</div>';
+				}
 				?>
             </div>
 			<footer>
